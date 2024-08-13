@@ -1,10 +1,6 @@
 import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from './scenekeys.js';
 
-import {
-    GAME_ASSET_KEYS,
-} from '../assets/assetkeys.js';
-
 export class GameScene extends Phaser.Scene {
     constructor() {
         super({
@@ -13,41 +9,14 @@ export class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.tilemapTiledJSON(GAME_ASSET_KEYS.TESTMAP, 'assets/Data/testmap.json');
-        this.load.image('terraintiles', 'assets/Tilesheets/terraintilesheet.png');
-        this.load.image('resourcetiles', 'assets/Tilesheets/resourcetilesheet.png');
-        this.load.spritesheet(GAME_ASSET_KEYS.CREATUREWALKRIGHT, 'assets/Animations/Creature/walkspritesheet.svg', { frameWidth: 120, frameHeight: 120 });
+        this.load.image('background', 'assets/980x600.png');
     }
 
     create() {
-        // ==Map Setup==
-        this.map1 = this.add.tilemap(GAME_ASSET_KEYS.TESTMAP);
-
-        const tileSet1 = this.map1.addTilesetImage('terraintilesheet', 'terraintiles');
-        const tileSet2 = this.map1.addTilesetImage('resourcetilesheet', 'resourcetiles');
-
-        this.terrainLayer = this.map1.createLayer('Terrain', [ tileSet1 ], 340, -50).setOrigin(0, 0);;
-        this.terrainLayer.setCollisionByProperty({ collides: true });
-        this.resourceLayer = this.map1.createLayer('Structures', [ tileSet2 ], 340, -50).setOrigin(0, 0);;
-        //this.resourceLayer = this.map1.createLayer('Structures', [ tileSet2 ], 340+50, -50-285);
-        this.resourceLayer.setCollisionByProperty({ collides: true });
-        
-        this.terrainLayer.setCullPadding(8, 8);
-
-        // ==Creature==
-        const creatureSpritesheet = {
-            key: 'walkright',
-            frames: this.anims.generateFrameNumbers(GAME_ASSET_KEYS.CREATUREWALKRIGHT, { start: 0, end: 7}),
-            frameRate: 20,
-            repeat: -1
-        };
-
-        this.anims.create(creatureSpritesheet);
-        this.add.sprite(this.map1.tileToWorldXY(0,0).x, this.map1.tileToWorldXY(0,0).y, GAME_ASSET_KEYS.CREATUREWALKRIGHT).play('walkright').setOrigin(0.5,0.5);
-        console.log(this.map1.tileToWorldXY(0,0).x, this.map1.tileToWorldXY(0,0).y);
+        this.add.image(0,0,'background').setOrigin(0);
 
         // ==Camera Pan and Zoom Function==
-        this.cameras.main.setZoom(0.3);
+        this.cameras.main.setZoom(1);
 
         let cameradragstartx;
         let cameradragstarty;
@@ -72,7 +41,7 @@ export class GameScene extends Phaser.Scene {
         this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
             // Get the current world point under pointer.
             const worldpoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
-            const newzoom = Phaser.Math.RoundTo(this.cameras.main.zoom - this.cameras.main.zoom * 0.00075 * deltaY, -5);
+            const newzoom = Phaser.Math.RoundTo(this.cameras.main.zoom - this.cameras.main.zoom * 0.00075 * deltaY, -2);
             this.cameras.main.zoom = Phaser.Math.Clamp(newzoom, 0.25, 2);
             console.log(this.cameras.main.zoom);
 

@@ -8,10 +8,12 @@ const game = new Phaser.Game({
     scale: {
         width: 980,
         height: 600,
-        mode: Phaser.Scale.NONE,
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    mipmapFilter: 'LINEAR_MIPMAP_LINEAR',
+    dom: {
+        createContainer: true
+    },
     parent: 'game-container',
     backgroundColor: '#FFFFFF',
 });
