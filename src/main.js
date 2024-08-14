@@ -8,7 +8,7 @@ const game = new Phaser.Game({
     scale: {
         width: 980,
         height: 600,
-        mode: Phaser.Scale.FIT,
+        mode: Phaser.Scale.NONE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
     dom: {
